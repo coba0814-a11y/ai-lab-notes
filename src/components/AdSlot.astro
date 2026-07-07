@@ -1,0 +1,40 @@
+---
+// AdSense広告を差し込むための枠。
+// 審査通過後、下記コメント部分をAdSenseが発行するスニペットに置き換える。
+interface Props {
+  slot?: 'in-article' | 'sidebar' | 'footer';
+}
+const { slot = 'in-article' } = Astro.props;
+---
+
+<div class={`ad-slot ad-slot--${slot}`} aria-label="広告枠">
+  <span class="ad-slot__label">広告</span>
+  <!--
+    AdSense審査通過後はここに実際のタグを設置する:
+    <ins class="adsbygoogle" ... ></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  -->
+</div>
+
+<style>
+  .ad-slot {
+    margin: 2.5rem 0;
+    padding: 1rem;
+    border: 1px dashed var(--border);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90px;
+    background: var(--paper-raised);
+  }
+  .ad-slot__label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+  .ad-slot--sidebar {
+    min-height: 250px;
+  }
+</style>

@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ---- Color tokens (Lab Notebook palette) ---- */
+  --paper: #faf9f4;
+  --paper-raised: #ffffff;
+  --ink: #1f2530;
+  --ink-soft: #545d6e;
+  --ink-faint: #8b93a3;
+  --grid-line: #e2e6ee;
+  --margin-rule: #b8564a;
+  --accent-amber: #e0a53d;
+  --accent-amber-soft: #f4e3c1;
+  --accent-steel: #2f5f7a;
+  --border: #dcdfd6;
+
+  /* ---- Type tokens ---- */
+  --font-display: 'Shippori Mincho B1', 'Spectral', serif;
+  --font-body: 'Zen Kaku Gothic New', 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --measure: 42rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.85;
+  /* 薄いグラフ用紙のグリッド */
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-color: var(--paper);
+  background-attachment: fixed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: var(--accent-steel);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--margin-rule);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent-steel);
+  outline-offset: 3px;
+}
+
+code, pre {
+  font-family: var(--font-mono);
+}
+
+.entry-number {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.mark {
+  background: linear-gradient(to bottom, transparent 60%, var(--accent-amber-soft) 60%);
+  padding: 0 0.1em;
+}
+
+.container {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ノートの左マージン罫線 */
+.notebook {
+  position: relative;
+  padding-left: 2.25rem;
+}
+
+.notebook::before {
+  content: '';
+  position: absolute;
+  left: 1.1rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--margin-rule);
+  opacity: 0.55;
+}
+
+@media (max-width: 640px) {
+  .notebook {
+    padding-left: 1.4rem;
+  }
+  .notebook::before {
+    left: 0.5rem;
+  }
+}

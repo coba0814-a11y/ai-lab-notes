@@ -1,0 +1,77 @@
+---
+interface Props {
+  entryNumber: number;
+  title: string;
+  description: string;
+  pubDate: Date;
+  tools: string[];
+  href: string;
+  status: 'published' | 'draft';
+}
+const { entryNumber, title, description, pubDate, tools, href, status } = Astro.props;
+const formatted = pubDate.toLocaleDateString('ja-JP', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+const paddedNumber = String(entryNumber).padStart(3, '0');
+---
+
+<article class="post-card notebook">
+  <p class="entry-number">
+    ENTRY No.{paddedNumber} — {formatted}
+    {status === 'draft' && <span class="draft-badge">下書き</span>}
+  </p>
+  <h2><a href={href}>{title}</a></h2>
+  <p class="post-card__desc">{description}</p>
+  {tools.length > 0 && (
+    <ul class="tool-list">
+      {tools.map((tool) => <li>{tool}</li>)}
+    </ul>
+  )}
+</article>
+
+<style>
+  .post-card {
+    padding: 1.25rem 0 1.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-card h2 {
+    font-size: 1.3rem;
+    margin: 0.4rem 0 0.5rem;
+  }
+  .post-card h2 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .post-card h2 a:hover {
+    color: var(--margin-rule);
+  }
+  .post-card__desc {
+    color: var(--ink-soft);
+    margin: 0 0 0.7rem;
+  }
+  .draft-badge {
+    color: var(--margin-rule);
+    border: 1px solid var(--margin-rule);
+    padding: 0.05rem 0.4rem;
+    margin-left: 0.5rem;
+    font-size: 0.68rem;
+  }
+  .tool-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  .tool-list li {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent-steel);
+    background: var(--accent-amber-soft);
+    padding: 0.15rem 0.5rem;
+    border-radius: 1px;
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="このノートについて"
+  description="AIツール実験ノートの運営方針と著者について。"
+>
+  <div class="container notebook page">
+    <p class="entry-number">ABOUT</p>
+    <h1>このノートについて</h1>
+
+    <div class="prose">
+      <p>
+        理系学部で物理を専攻する大学生が、日々の勉強や就職活動の中で
+        実際に使っているAIツール(Gemini・Claude・Perplexity・NotebookLMなど)の
+        使用感を記録しているノートです。
+      </p>
+      <p>
+        専門家としての解説ではなく、「実際に使ってみた人間の一次記録」を
+        大切にしています。良かった点だけでなく、うまくいかなかったことや
+        失敗も含めて、できるだけ正直に書くようにしています。
+      </p>
+      <h2>更新頻度</h2>
+      <p>週1〜2本のペースで、無理のない範囲で更新しています。</p>
+      <h2>お問い合わせ</h2>
+      <p>
+        <!-- TODO: 問い合わせ用のメールアドレスかフォームリンクに差し替える -->
+        ご連絡は近日公開予定のお問い合わせフォームよりお願いします。
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: 2.5rem 0 3rem;
+  }
+  .page h1 {
+    margin: 0.6rem 0 1.4rem;
+  }
+</style>
