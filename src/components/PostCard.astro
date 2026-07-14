@@ -17,7 +17,7 @@ const formatted = pubDate.toLocaleDateString('ja-JP', {
 const paddedNumber = String(entryNumber).padStart(3, '0');
 ---
 
-<article class="post-card notebook">
+<article class="post-card notebook lift">
   <p class="entry-number">
     ENTRY No.{paddedNumber} — {formatted}
     {status === 'draft' && <span class="draft-badge">下書き</span>}
@@ -33,8 +33,13 @@ const paddedNumber = String(entryNumber).padStart(3, '0');
 
 <style>
   .post-card {
-    padding: 1.25rem 0 1.75rem;
+    padding: 1.25rem 1.1rem 1.75rem;
+    margin: 0 -1.1rem;
     border-bottom: 1px solid var(--border);
+    border-radius: 3px;
+  }
+  .post-card.lift:hover {
+    background: var(--paper-raised);
   }
   .post-card h2 {
     font-size: 1.3rem;
@@ -52,11 +57,14 @@ const paddedNumber = String(entryNumber).padStart(3, '0');
     margin: 0 0 0.7rem;
   }
   .draft-badge {
-    color: var(--margin-rule);
-    border: 1px solid var(--margin-rule);
-    padding: 0.05rem 0.4rem;
+    color: #7a4a12;
+    background: var(--accent-amber-soft);
+    padding: 0.08rem 0.45rem;
     margin-left: 0.5rem;
     font-size: 0.68rem;
+    border-radius: 1px;
+    display: inline-block;
+    transform: rotate(-2deg);
   }
   .tool-list {
     list-style: none;
