@@ -10,8 +10,9 @@ interface Props {
   updatedDate?: Date;
   tools: string[];
   status: 'published' | 'draft';
+  readingMinutes?: number;
 }
-const { title, description, entryNumber, pubDate, updatedDate, tools, status } = Astro.props;
+const { title, description, entryNumber, pubDate, updatedDate, tools, status, readingMinutes } = Astro.props;
 const paddedNumber = String(entryNumber).padStart(3, '0');
 const formatted = pubDate.toLocaleDateString('ja-JP', {
   year: 'numeric', month: '2-digit', day: '2-digit',
@@ -19,9 +20,10 @@ const formatted = pubDate.toLocaleDateString('ja-JP', {
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class="container post notebook">
+  <article class="container post notebook fade-in-up">
     <p class="entry-number">
       ENTRY No.{paddedNumber} — 記録日 {formatted}
+      {readingMinutes && <span class="reading-time">/ 約{readingMinutes}分</span>}
       {status === 'draft' && <span class="draft-note">※下書き:公開前に体験談を追記すること</span>}
     </p>
     <h1>{title}</h1>
@@ -51,8 +53,13 @@ const formatted = pubDate.toLocaleDateString('ja-JP', {
     margin: 0.6rem 0 1rem;
   }
   .draft-note {
-    color: var(--margin-rule);
+    color: #7a4a12;
+    background: var(--accent-amber-soft);
+    padding: 0.08rem 0.5rem;
     margin-left: 0.5rem;
+    display: inline-block;
+    transform: rotate(-2deg);
+    border-radius: 1px;
   }
   .tool-list {
     list-style: none;
@@ -69,9 +76,14 @@ const formatted = pubDate.toLocaleDateString('ja-JP', {
     background: var(--accent-amber-soft);
     padding: 0.15rem 0.5rem;
   }
+  .reading-time {
+    color: var(--ink-faint);
+  }
   .prose :global(h2) {
     font-size: 1.35rem;
-    margin-top: 2.2rem;
+    margin-top: 2.4rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px dashed var(--border);
   }
   .prose :global(h3) {
     font-size: 1.1rem;
@@ -84,12 +96,46 @@ const formatted = pubDate.toLocaleDateString('ja-JP', {
   .prose :global(ol) {
     padding-left: 1.4rem;
   }
+  .prose :global(li) {
+    margin: 0.35rem 0;
+  }
+  /* 「📝 体験を追記」ブロックを付箋メモ風に */
   .prose :global(blockquote) {
-    border-left: 3px solid var(--accent-amber);
-    margin: 1.4rem 0;
-    padding: 0.2rem 0 0.2rem 1rem;
-    color: var(--ink-soft);
-    font-style: italic;
+    border-left: none;
+    margin: 1.6rem 0;
+    padding: 0.9rem 1.1rem;
+    color: #6b5426;
+    background:
+      linear-gradient(var(--accent-amber-soft), var(--accent-amber-soft)) padding-box;
+    border-radius: 2px;
+    box-shadow: var(--shadow-soft);
+    font-style: normal;
+    font-size: 0.95rem;
+    position: relative;
+    transform: rotate(-0.4deg);
+  }
+  .prose :global(blockquote::before) {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%) rotate(1.5deg);
+    width: 74px;
+    height: 14px;
+    background: rgba(184, 86, 74, 0.28);
+  }
+  .prose :global(blockquote p) {
+    margin: 0.35rem 0;
+  }
+  .prose :global(code) {
+    background: var(--paper-raised);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 0.08rem 0.35rem;
+    font-size: 0.86em;
+  }
+  .prose :global(a) {
+    text-decoration-color: var(--accent-amber);
   }
   .back-link {
     margin-top: 2rem;

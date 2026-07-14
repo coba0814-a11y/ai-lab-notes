@@ -6,6 +6,8 @@ import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('posts');
 const sorted = allPosts.sort((a, b) => b.data.entryNumber - a.data.entryNumber);
+const publishedCount = allPosts.filter((p) => p.data.status === 'published').length;
+const toolSet = new Set(allPosts.flatMap((p) => p.data.tools));
 ---
 
 <BaseLayout
@@ -13,31 +15,43 @@ const sorted = allPosts.sort((a, b) => b.data.entryNumber - a.data.entryNumber);
   description="大学生がGemini・Claude・Perplexity・NotebookLMなどのAIツールを実際に使ってみた記録。専門知識より、実際に使った一次情報を積み重ねるノート。"
 >
   <section class="hero">
-    <div class="container">
-      <p class="entry-number">FIELD NOTES / 001—</p>
-      <h1>
-        AIツールを、<span class="mark">使いながら</span>記録する。
-      </h1>
-      <p class="hero__lead">
-        専門家の解説ではなく、実際に手を動かした一次記録。
-        レポート、就活のES、日々の調べ物――大学生活の中で
-        AIツールをどう使い、何が良くて何が微妙だったのかを
-        実験ノートのように残していきます。
-      </p>
+    <div class="container hero__inner">
+      <div class="hero__text fade-in-up">
+        <p class="entry-number">FIELD NOTES / 001—</p>
+        <h1>
+          AIツールを、<span class="mark">使いながら</span>記録する。
+        </h1>
+        <p class="hero__lead">
+          専門家の解説ではなく、実際に手を動かした一次記録。
+          レポート、就活のES、日々の調べ物――大学生活の中で
+          AIツールをどう使い、何が良くて何が微妙だったのかを
+          実験ノートのように残していきます。
+        </p>
+        <p class="annotation hero__scribble">→ 思ったより地味な発見が多い</p>
+      </div>
+      <div class="hero__tab" aria-hidden="true">
+        <span>OPEN</span>
+        <span>NOTEBOOK</span>
+      </div>
     </div>
   </section>
 
   <section class="container notebook posts">
-    {sorted.map((post) => (
-      <PostCard
-        entryNumber={post.data.entryNumber}
-        title={post.data.title}
-        description={post.data.description}
-        pubDate={post.data.pubDate}
-        tools={post.data.tools}
-        href={`/posts/${post.id}/`}
-        status={post.data.status}
-      />
+    <p class="index-line entry-number fade-in-up">
+      INDEX — 全{sorted.length}件の記録 / 検証済みツール {toolSet.size}種
+    </p>
+    {sorted.map((post, i) => (
+      <div class="fade-in-up" style={`animation-delay: ${Math.min(i, 6) * 60}ms`}>
+        <PostCard
+          entryNumber={post.data.entryNumber}
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          tools={post.data.tools}
+          href={`/posts/${post.id}/`}
+          status={post.data.status}
+        />
+      </div>
     ))}
   </section>
 
@@ -50,6 +64,16 @@ const sorted = allPosts.sort((a, b) => b.data.entryNumber - a.data.entryNumber);
   .hero {
     padding: 3.5rem 0 2.5rem;
     border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .hero__inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  .hero__text {
+    min-width: 0;
   }
   .hero h1 {
     font-size: clamp(1.8rem, 4vw, 2.6rem);
@@ -61,7 +85,39 @@ const sorted = allPosts.sort((a, b) => b.data.entryNumber - a.data.entryNumber);
     color: var(--ink-soft);
     font-size: 1.02rem;
   }
+  .hero__scribble {
+    margin-top: 0.9rem;
+  }
+  .hero__tab {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    width: 4.6rem;
+    height: 4.6rem;
+    margin-top: 0.3rem;
+    border: 1.5px solid var(--margin-rule);
+    color: var(--margin-rule);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    transform: rotate(4deg);
+    background: var(--paper-raised);
+    box-shadow: var(--shadow-soft);
+  }
+  @media (max-width: 640px) {
+    .hero__tab {
+      display: none;
+    }
+  }
   .posts {
     padding-top: 2.5rem;
+  }
+  .index-line {
+    padding-bottom: 0.8rem;
+    border-bottom: 1px dashed var(--border);
+    margin-bottom: 0.4rem;
   }
 </style>

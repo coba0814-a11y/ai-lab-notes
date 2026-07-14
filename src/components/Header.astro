@@ -59,6 +59,10 @@ const nav = [
     padding: 0.25rem 0.4rem;
     line-height: 1;
     transform: rotate(-3deg);
+    transition: transform 0.3s var(--ease-out);
+  }
+  .brand:hover .brand__mark {
+    transform: rotate(0deg);
   }
   .brand__title {
     font-family: var(--font-display);
